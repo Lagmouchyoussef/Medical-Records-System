@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Patients{% endblock %}
+
+{% block body %}
+    <div class="container mt-4">
+        <h1>Liste des patients</h1>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nom</th>
+                    <th>Maladie</th>
+                    <th>Médecin</th>
+                    <th>Date de visite</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for patient in patients %}
+                <tr>
+                    <td>{{ patient.id }}</td>
+                    <td>{{ patient.nom }}</td>
+                    <td>{{ patient.maladie }}</td>
+                    <td>{{ patient.medecin }}</td>
+                    <td>{{ patient.dateVisite ? patient.dateVisite|date('Y-m-d') : '' }}</td>
+                    <td>
+                        <a href="{{ path('app_patient_edit', {'id': patient.id}) }}" class="btn btn-sm btn-warning me-2">Modifier</a>
+                        {{ include('patient/_delete_form.html.twig') }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucun patient trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{{ path('app_patient_new') }}" class="btn btn-primary">Créer un nouveau patient</a>
+    </div>
+{% endblock %}
