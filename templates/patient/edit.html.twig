@@ -1,0 +1,173 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit the patient{% endblock %}
+
+{% block body %}
+<!-- Hero Section -->
+<section class="hero-section bg-gradient-warning text-dark py-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <h1 class="display-4 fw-bold mb-4">
+                    <i class="fas fa-user-edit me-3"></i>Edit Patient
+                </h1>
+                <p class="lead mb-4">
+                    Update the patient's medical information. Make sure all data is accurate.
+                </p>
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Warning:</strong> Changes will be saved immediately in the database.
+                </div>
+            </div>
+            <div class="col-lg-6 text-center">
+                <i class="fas fa-user-cog display-1 text-warning opacity-75"></i>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Patient Form Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card shadow-lg border-0">
+                    <div class="card-header bg-white border-0 pt-4">
+                        <h2 class="h3 mb-0 text-center text-warning">
+                            <i class="fas fa-edit me-2"></i>Edit information
+                        </h2>
+                    </div>
+                    <div class="card-body p-4 p-lg-5">
+                        {{ include('patient/_form.html.twig', {'button_label': 'Update the patient'}) }}
+                    </div>
+                    <div class="card-footer d-flex justify-content-between">
+                        <div>{{ include('patient/_delete_form.html.twig') }}</div>
+                        <a href="{{ path('patient_index') }}" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-1"></i>Back to list
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Update Info Section -->
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-4 mb-4">
+                <div class="update-card h-100">
+                    <i class="fas fa-save text-warning fs-1 mb-3"></i>
+                    <h5 class="fw-bold">Automatic save</h5>
+                    <p class="text-muted">All changes are saved in real time.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="update-card h-100">
+                    <i class="fas fa-history text-warning fs-1 mb-3"></i>
+                    <h5 class="fw-bold">History preserved</h5>
+                    <p class="text-muted">The modification history is preserved for audit.</p>
+                </div>
+            </div>
+            <div class="col-md-4 mb-4">
+                <div class="update-card h-100">
+                    <i class="fas fa-exclamation-triangle text-warning fs-1 mb-3"></i>
+                    <h5 class="fw-bold">Deletion possible</h5>
+                    <p class="text-muted">Option to delete the patient if necessary.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+.bg-gradient-warning {
+    background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+}
+
+.hero-section {
+    background: linear-gradient(135deg, #f39c12 0%, #e74c3c 100%);
+    min-height: 60vh;
+    display: flex;
+    align-items: center;
+}
+
+.card {
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.form-floating > label {
+    padding: 1rem 0.75rem;
+    font-weight: 500;
+}
+
+.form-control:focus {
+    border-color: #f39c12;
+    box-shadow: 0 0 0 0.2rem rgba(243, 156, 18, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 10px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(40, 167, 69, 0.4);
+}
+
+.btn-secondary {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+
+.btn-danger {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+
+.update-card {
+    padding: 2rem;
+    border-radius: 10px;
+    background: white;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.update-card:hover {
+    transform: translateY(-5px);
+}
+
+.alert {
+    border-radius: 10px;
+    border: none;
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        text-align: center;
+        padding: 3rem 0;
+    }
+
+    .display-4 {
+        font-size: 2.5rem;
+    }
+
+    .update-card {
+        margin-bottom: 2rem;
+    }
+}
+</style>
+{% endblock %}

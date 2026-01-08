@@ -1,0 +1,61 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="row g-4">
+        <div class="col-12">
+            <div class="form-floating">
+                {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Patient full name'}}) }}
+                <label for="{{ form.name.vars.id }}" class="form-label">
+                    <i class="fas fa-user me-2"></i>Full name
+                </label>
+                {% if form.name.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.name) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                {{ form_widget(form.illness, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Illness description'}}) }}
+                <label for="{{ form.illness.vars.id }}" class="form-label">
+                    <i class="fas fa-stethoscope me-2"></i>Illness
+                </label>
+                {% if form.illness.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.illness) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.assignedDoctor, {'attr': {'class': 'form-control form-control-lg', 'placeholder': 'Treating doctor name'}}) }}
+                <label for="{{ form.assignedDoctor.vars.id }}" class="form-label">
+                    <i class="fas fa-user-md me-2"></i>Assigned doctor
+                </label>
+                {% if form.assignedDoctor.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.assignedDoctor) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.visitDate, {'attr': {'class': 'form-control form-control-lg'}}) }}
+                <label for="{{ form.visitDate.vars.id }}" class="form-label">
+                    <i class="fas fa-calendar-alt me-2"></i>Visit date
+                </label>
+                {% if form.visitDate.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.visitDate) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="d-grid mt-4">
+        <button type="submit" class="btn btn-success">
+            <i class="fas fa-save me-2"></i>{{ button_label|default('Save the patient') }}
+        </button>
+    </div>
+{{ form_end(form) }}
