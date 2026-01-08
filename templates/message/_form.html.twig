@@ -1,0 +1,42 @@
+{{ form_start(form, {'attr': {'novalidate': 'novalidate'}}) }}
+    <div class="row g-3">
+        <div class="col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.name, {'attr': {'class': 'form-control', 'placeholder': 'Your name'}}) }}
+                <label for="{{ form.name.vars.id }}">Name</label>
+                {% if form.name.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.name) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-floating">
+                {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'your.email@example.com'}}) }}
+                <label for="{{ form.email.vars.id }}">Email</label>
+                {% if form.email.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.email) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-12">
+            <div class="form-floating">
+                {{ form_widget(form.message, {'attr': {'class': 'form-control', 'rows': 5, 'placeholder': 'Write your message here...'}}) }}
+                <label for="{{ form.message.vars.id }}">Message</label>
+                {% if form.message.vars.errors|length > 0 %}
+                    <div class="text-danger small mt-1">
+                        {{ form_errors(form.message) }}
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+        <button class="btn btn-success">
+            <i class="fas fa-save me-2"></i>{{ button_label|default('Save') }}
+        </button>
+    </div>
+{{ form_end(form) }}

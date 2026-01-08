@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier le message{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-secondary text-white">
+                <h1 class="h3 mb-0"><i class="fas fa-edit me-2"></i>Modifier le message</h1>
+            </div>
+            <div class="card-body">
+                {{ include('message/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
+            <div class="card-footer d-flex justify-content-between">
+                <div>{{ include('message/_delete_form.html.twig') }}</div>
+                <a href="{{ path('message_index') }}" class="btn btn-secondary">
+                    <i class="fas fa-arrow-left me-1"></i>Retour à la liste
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block stylesheets %}
+{{ parent() }}
+<style>
+.card {
+    border: none;
+    border-radius: 15px;
+    overflow: hidden;
+}
+.card-header {
+    background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+    border: none;
+    padding: 2rem;
+}
+.card-body {
+    padding: 2rem;
+}
+.form-label {
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.5rem;
+}
+.form-control, .form-select {
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    padding: 0.75rem;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+.form-control:focus, .form-select:focus {
+    border-color: #6c757d;
+    box-shadow: 0 0 0 0.2rem rgba(108, 117, 125, 0.25);
+}
+.btn-success {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    border-radius: 8px;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+.btn-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+}
+.btn-secondary {
+    border-radius: 8px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+}
+.btn-danger {
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+}
+</style>
+{% endblock %}
