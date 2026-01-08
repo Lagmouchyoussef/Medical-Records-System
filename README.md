@@ -1,4 +1,4 @@
-```markdown
+
 <div align="center">
 
   ![Symfony](https://img.shields.io/badge/Symfony-000000?style=for-the-badge&logo=symfony&logoColor=white)
