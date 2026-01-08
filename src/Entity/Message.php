@@ -13,7 +13,7 @@ class Message
     #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
-    #[ORM\Column(name: 'nom', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     private $name;
 
     #[ORM\Column(name: 'email', type: 'string', length: 255)]
@@ -22,7 +22,7 @@ class Message
     #[ORM\Column(name: 'message', type: 'text')]
     private $message;
 
-    #[ORM\Column(name: 'date_envoi', type: 'datetime')]
+    #[ORM\Column(name: 'sent_at', type: 'datetime')]
     private $sentAt;
 
     public function getId(): ?int

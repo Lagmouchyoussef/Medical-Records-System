@@ -13,16 +13,16 @@ class Patient
     #[ORM\Column(name: 'id', type: 'integer')]
     private $id;
 
-    #[ORM\Column(name: 'nom', type: 'string', length: 255)]
+    #[ORM\Column(name: 'name', type: 'string', length: 255)]
     private $name;
 
-    #[ORM\Column(name: 'maladie', type: 'string', length: 255)]
+    #[ORM\Column(name: 'illness', type: 'string', length: 255)]
     private $illness;
 
-    #[ORM\Column(name: 'medecin_assigne', type: 'string', length: 255)]
+    #[ORM\Column(name: 'assigned_doctor', type: 'string', length: 255)]
     private $assignedDoctor;
 
-    #[ORM\Column(name: 'date_visite', type: 'datetime')]
+    #[ORM\Column(name: 'visit_date', type: 'datetime')]
     private $visitDate;
 
     public function getId(): ?int
