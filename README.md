@@ -18,13 +18,13 @@
 
 ## 🎥 System Demonstration
 
-<!-- LOCAL VIDEO PLACEHOLDER -->
-<!-- This section renders the video file directly from the repository (ensure the file is named 'demo.mp4') -->
+<!-- LOCAL VIDEO PLAYER -->
+<!-- Ensure the file 'PHP.mp4' is uploaded to the root of your repository -->
 
 <div align="center">
   <video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
     <source src="PHP.mp4" type="video/mp4">
-    Your browser does not support the video tag. Please download the file to view the demonstration.
+    Your browser does not support the video tag.
   </video>
 </div>
 
@@ -37,6 +37,32 @@ This project serves as a centralized platform for healthcare administration, ena
 ### 🎓 Development Context
 
 > "This project represents a foundational milestone in my journey as a Symfony developer. It was built to demonstrate my proficiency in core architectural patterns (MVC), database management with Doctrine, and the implementation of secure, data-driven web applications."
+
+## 📋 Extended Description
+
+The **Medical Records Management System** is a full-stack web solution designed to modernize the administrative workflow of a healthcare facility. By replacing traditional paper-based filing with a digital ecosystem, the application ensures data integrity, accessibility, and streamlined communication between patients and providers.
+
+### System Architecture & Workflow
+
+The application is built upon the **Symfony Framework**, adhering to the Model-View-Controller (MVC) architectural pattern. This separation of concerns ensures that the business logic (managing patient data) is cleanly decoupled from the presentation layer (user interface), resulting in maintainable and scalable code.
+
+#### 1. Patient Data Management
+At the core of the system is the **Patient Module**. This module is designed to handle complex data relationships, storing not just basic demographics but also critical medical context.
+*   **Clinical Context:** For each patient entry, the system records specific medical details such as the diagnosed **Illness** and the assigned **Doctor**, creating a direct link between the patient and the caregiver.
+*   **Appointment Scheduling:** The inclusion of a **Next Visit** date field transforms the system into a scheduling tool, allowing staff to monitor upcoming consultations and manage daily workflows efficiently.
+*   **CRUD Operations:** The interface provides a complete set of Create, Read, Update, and Delete (CRUD) capabilities, ensuring that patient records can be corrected or archived as the medical situation evolves.
+
+#### 2. Quality Assurance via Feedback
+To maintain high service standards, the system includes a dedicated **Feedback Module**. This feature allows the administration to capture patient satisfaction data.
+*   It records the patient's perspective along with a timestamp (**Sending Date**), providing a historical log of service quality.
+*   Administrators have the authority to **Modify** or **Suppress** feedback, allowing for the management of inappropriate content or the resolution of reported issues.
+
+#### 3. Centralized Communication Hub
+The system bridges the gap between the public and the administration through a dual-layer communication interface:
+
+*   **Frontend Submission:** A user-friendly **Contact Us** form allows visitors to securely send inquiries. The form captures structured data (**Full Name**, **Email**, and **Message**), ensuring that the administration has all necessary context to reply.
+*   **Backend Inbox:** On the administrative side, a **Received Messages** dashboard aggregates these submissions.
+*   **User Experience (UX) Design:** Special attention was paid to the "Empty State." When no messages are present, the interface displays a clear, guiding message: *"No messages received. Messages will appear here once received."* This prevents user confusion and enhances the perceived polish of the application.
 
 ---
 
@@ -131,14 +157,6 @@ To run this project locally, please follow these instructions:
     symfony server:start
     ```
     Navigate to `http://localhost:8000` in your browser.
-
----
-
-## 📂 Project Structure
-
-*   `/src` – Application logic (Controllers, Entities, Form types).
-*   `/templates` – Twig templates for UI rendering.
-*   `/migrations` – Database schema versions (if using migrations).
 
 ---
 
