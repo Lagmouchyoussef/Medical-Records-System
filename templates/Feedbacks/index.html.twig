@@ -57,7 +57,7 @@
                                     <a href="{{ path('Feedbacks_edit', {'id': feedback.id}) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    {{ include('Feedbacks/_delete_form.html.twig') }}
+                                    {{ include('Feedbacks/_delete_form.html.twig', {'feedback': feedback}) }}
                                 </div>
                             </td>
                         </tr>

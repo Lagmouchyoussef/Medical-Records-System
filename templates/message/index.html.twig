@@ -57,7 +57,7 @@
                                     <a href="{{ path('message_edit', {'id': message.id}) }}" class="btn btn-sm btn-outline-warning" title="Edit">
                                         <i class="fas fa-edit"></i>
                                     </a>
-                                    {{ include('message/_delete_form.html.twig') }}
+                                    {{ include('message/_delete_form.html.twig', {'message': message}) }}
                                 </div>
                             </td>
                         </tr>
