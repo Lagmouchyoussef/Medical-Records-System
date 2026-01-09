@@ -18,17 +18,7 @@
 
 ## 🎥 System Demonstration
 
-<!-- LOCAL VIDEO PLAYER -->
-<!-- Ensure the file 'PHP.mp4' is uploaded to the root of your repository -->
-
-<div align="center">
-  <video width="800" controls style="border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
-    <source src="PHP.mp4" type="video/mp4">
-    Your browser does not support the video tag.
-  </video>
-</div>
-
----
+https://github.com/user-attachments/assets/365a1f6b-b1de-4b5d-961f-f6425dbfcbdc
 
 ## 📖 Project Overview
 
