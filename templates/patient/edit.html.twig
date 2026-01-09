@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Edit the patient{% endblock %}
+{% block title %}Edit Patient{% endblock %}
 
 {% block body %}
 <!-- Hero Section -->
@@ -34,14 +34,14 @@
                 <div class="card shadow-lg border-0">
                     <div class="card-header bg-white border-0 pt-4">
                         <h2 class="h3 mb-0 text-center text-warning">
-                            <i class="fas fa-edit me-2"></i>Edit information
+                            <i class="fas fa-edit me-2"></i>Edit Information
                         </h2>
                     </div>
                     <div class="card-body p-4 p-lg-5">
-                        {{ include('patient/_form.html.twig', {'button_label': 'Update the patient'}) }}
+                        {{ include('patient/_form.html.twig', {'button_label': 'Update Patient'}) }}
                     </div>
                     <div class="card-footer d-flex justify-content-between">
-                        <div>{{ include('patient/_delete_form.html.twig') }}</div>
+                        <div>{{ include('patient/_delete_form.html.twig', {'patient': patient}) }}</div>
                         <a href="{{ path('patient_index') }}" class="btn btn-secondary">
                             <i class="fas fa-arrow-left me-1"></i>Back to list
                         </a>
@@ -59,21 +59,21 @@
             <div class="col-md-4 mb-4">
                 <div class="update-card h-100">
                     <i class="fas fa-save text-warning fs-1 mb-3"></i>
-                    <h5 class="fw-bold">Automatic save</h5>
+                    <h5 class="fw-bold">Automatic Save</h5>
                     <p class="text-muted">All changes are saved in real time.</p>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="update-card h-100">
                     <i class="fas fa-history text-warning fs-1 mb-3"></i>
-                    <h5 class="fw-bold">History preserved</h5>
+                    <h5 class="fw-bold">History Preserved</h5>
                     <p class="text-muted">The modification history is preserved for audit.</p>
                 </div>
             </div>
             <div class="col-md-4 mb-4">
                 <div class="update-card h-100">
                     <i class="fas fa-exclamation-triangle text-warning fs-1 mb-3"></i>
-                    <h5 class="fw-bold">Deletion possible</h5>
+                    <h5 class="fw-bold">Deletion Possible</h5>
                     <p class="text-muted">Option to delete the patient if necessary.</p>
                 </div>
             </div>

@@ -20,7 +20,7 @@ class Controller extends AbstractController
         return $this->render("home.html.twig");
     }
 
-    public function contact(Request $request, EntityManagerInterface $entityManager)
+    public function contact(Request $request, EntityManagerInterface $entityManager, MessageRepository $messageRepository)
     {
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
@@ -31,13 +31,14 @@ class Controller extends AbstractController
             $entityManager->persist($message);
             $entityManager->flush();
 
-            $this->addFlash('success', 'Votre message a été envoyé avec succès !');
+            $this->addFlash('success', 'Your message has been sent successfully!');
 
             return $this->redirectToRoute('contact');
         }
 
         return $this->render('message/contact.html.twig', [
             'form' => $form->createView(),
+            'messages' => $messageRepository->findAll(),
         ]);
     }
 

@@ -12,7 +12,7 @@
                 <td>{{ message.id }}</td>
             </tr>
             <tr>
-                <th>Nom</th>
+                <th>Name</th>
                 <td>{{ message.name }}</td>
             </tr>
             <tr>
@@ -24,15 +24,15 @@
                 <td>{{ message.message }}</td>
             </tr>
             <tr>
-                <th>Date d'envoi</th>
+                <th>Sending Date</th>
                 <td>{{ message.sentAt ? message.sentAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('message_index') }}">Retour à la liste</a>
+    <a href="{{ path('message_index') }}">Back to list</a>
 
-    <a href="{{ path('message_edit', {'id': message.id}) }}">Modifier</a>
+    <a href="{{ path('message_edit', {'id': message.id}) }}">Edit</a>
 
-    {{ include('message/_delete_form.html.twig') }}
+    {{ include('message/_delete_form.html.twig', {'message': message}) }}
 {% endblock %}
