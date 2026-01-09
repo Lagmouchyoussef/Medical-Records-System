@@ -173,4 +173,3 @@ Contributions, issues, and feature requests are welcome!
 <div align="center">
   <sub>Built with ❤️ using Symfony</sub>
 </div>
-```
