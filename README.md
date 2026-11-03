@@ -30,12 +30,6 @@
 | 🏗️ **Pattern** | MVC on Symfony, Doctrine ORM, Twig templates, small service layer |
 | 🎨 **UI** | Custom design system on top of Bootstrap 5.3, responsive, keyboard-friendly |
 
-> *This project is a milestone in my journey as a Symfony developer — built to demonstrate MVC architecture, database management with Doctrine and the delivery of a polished, data-driven web interface.*
-
-### 🎥 Demo video
-
-https://github.com/user-attachments/assets/365a1f6b-b1de-4b5d-961f-f6425dbfcbdc
-
 ---
 
 ## 📸 Screenshots
