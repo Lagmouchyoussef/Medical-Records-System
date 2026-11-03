@@ -1,167 +1,207 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Home - Medical Records System{% endblock %}
+{% block title %}Dashboard{% endblock %}
 
-{% block body %}
-<!-- Hero Section -->
-<section class="hero-section bg-gradient-primary text-white py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-6">
-                <h1 class="display-4 fw-bold mb-4">
-                    <i class="fas fa-hospital me-3"></i>Medical Management
-                </h1>
-                <p class="lead mb-4">
-                    A complete platform for managing patients, feedbacks and medical communications.
-                    Simplify your medical workflow with our intuitive tools.
-                </p>
-                <div class="d-flex flex-column flex-sm-row gap-3">
-                    <a class="btn btn-light btn-lg" href="{{ path('patient_index') }}">
-                        <i class="fas fa-users me-2"></i>Manage patients
-                    </a>
-                    <a class="btn btn-outline-light btn-lg" href="{{ path('contact') }}">
-                        <i class="fas fa-envelope me-2"></i>Contact Us
-                    </a>
-                </div>
-            </div>
-            <div class="col-lg-6 text-center">
-                <i class="fas fa-user-md display-1 text-info opacity-75"></i>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Features Section -->
-<section class="py-5 bg-light">
-    <div class="container">
-        <div class="row text-center mb-5">
-            <div class="col-12">
-                <h2 class="h1 fw-bold text-primary mb-4">Our Services</h2>
-                <p class="lead text-muted">Discover all the features of our medical platform</p>
-            </div>
-        </div>
-        <div class="row g-4">
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <div class="feature-icon bg-primary text-white mb-3">
-                        <i class="fas fa-user-injured fa-2x"></i>
-                    </div>
-                    <h5 class="fw-bold">Patient Management</h5>
-                    <p class="text-muted">Register and track all your patients with complete information and detailed medical history.</p>
-                    <a href="{{ path('patient_index') }}" class="btn btn-primary">
-                        <i class="fas fa-arrow-right me-1"></i>View patients
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <div class="feature-icon bg-success text-white mb-3">
-                        <i class="fas fa-comments fa-2x"></i>
-                    </div>
-                    <h5 class="fw-bold">Feedbacks & Reviews</h5>
-                    <p class="text-muted">Collect and manage your patients' feedback to continuously improve your services.</p>
-                    <a href="{{ path('Feedbacks_index') }}" class="btn btn-success">
-                        <i class="fas fa-arrow-right me-1"></i>View feedbacks
-                    </a>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="feature-card h-100">
-                    <div class="feature-icon bg-info text-white mb-3">
-                        <i class="fas fa-envelope fa-2x"></i>
-                    </div>
-                    <h5 class="fw-bold">Messaging</h5>
-                    <p class="text-muted">Communicate effectively with your patients and colleagues thanks to our integrated messaging system.</p>
-                    <a href="{{ path('message_index') }}" class="btn btn-info">
-                        <i class="fas fa-arrow-right me-1"></i>View messages
-                    </a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-
-<!-- CTA Section -->
-<section class="py-5 bg-primary text-white">
-    <div class="container text-center">
-        <h2 class="h1 fw-bold mb-4">Ready to start?</h2>
-        <p class="lead mb-4">Join our platform and improve the management of your medical office today.</p>
-        <div class="d-flex flex-column flex-sm-row gap-3 justify-content-center">
-            <a href="{{ path('patient_new') }}" class="btn btn-light btn-lg">
-                <i class="fas fa-plus me-2"></i>Add a patient
-            </a>
-            <a href="{{ path('Feedbacks_new') }}" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-star me-2"></i>Give feedback
-            </a>
-        </div>
-    </div>
-</section>
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js" integrity="sha384-bs/nf9FbdNouRbMiFcrcZfLXYPKiPaGVGplVbv7dLGECccEXDW+S3zjqSKR5ZEaD" crossorigin="anonymous"></script>
 {% endblock %}
 
-{% block stylesheets %}
-{{ parent() }}
-<style>
-.bg-gradient-primary {
-    background: linear-gradient(135deg, #0d6efd 0%, #6610f2 100%);
-}
+{% block body %}
+{% set t = stats.totals %}
+{% set k = stats.kpis %}
 
-.hero-section {
-    min-height: 70vh;
-    display: flex;
-    align-items: center;
-}
+<div class="page-head">
+    <div>
+        <h1>Dashboard</h1>
+        <p>{{ 'now'|date('l, F j, Y') }} · overview of your practice</p>
+    </div>
+    <form action="{{ path('patient_index') }}" method="get" class="dash-search" role="search">
+        <i class="fas fa-magnifying-glass"></i>
+        <input type="search" name="q" class="form-control" placeholder="Search a patient, illness or doctor…" aria-label="Search patients">
+    </form>
+</div>
 
-.feature-card {
-    padding: 2rem;
-    border-radius: 15px;
-    background: white;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    border: 1px solid #e9ecef;
-    text-align: center;
-}
+{# ---------- Quick actions ---------- #}
+<section class="quick-grid" aria-label="Quick actions">
+    <a href="{{ path('patient_new') }}" class="quick-tile"><span class="qi"><i class="fas fa-user-plus"></i></span><span><strong>Add patient</strong><small>Register a new patient</small></span></a>
+    <a href="{{ path('patient_index') }}" class="quick-tile"><span class="qi"><i class="fas fa-users"></i></span><span><strong>All patients</strong><small>Browse and edit records</small></span></a>
+    <a href="{{ path('message_new') }}" class="quick-tile"><span class="qi"><i class="fas fa-envelope"></i></span><span><strong>New message</strong><small>Write to the inbox</small></span></a>
+    <a href="{{ path('Feedbacks_new') }}" class="quick-tile"><span class="qi"><i class="fas fa-star"></i></span><span><strong>New feedback</strong><small>Record patient opinion</small></span></a>
+    <a href="{{ path('contact') }}" class="quick-tile"><span class="qi"><i class="fas fa-headset"></i></span><span><strong>Contact page</strong><small>Public contact form</small></span></a>
+</section>
 
-.feature-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 35px rgba(0,0,0,0.15);
-}
+{# ---------- KPIs ---------- #}
+<section class="row g-3 mb-4" aria-label="Key figures">
+    <div class="col-6 col-lg-3">
+        <a href="{{ path('patient_index') }}" class="panel kpi">
+            <div class="kpi-icon"><i class="fas fa-user-injured"></i></div>
+            <div class="kpi-value">{{ t.patients }}</div>
+            <div class="kpi-label">Patients</div>
+            <div class="kpi-note">{{ t.doctors }} doctor{{ t.doctors == 1 ? '' : 's' }} on duty</div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a href="{{ path('patient_index') }}" class="panel kpi">
+            <div class="kpi-icon blue"><i class="far fa-calendar-check"></i></div>
+            <div class="kpi-value">{{ k.visitsThisWeek }}</div>
+            <div class="kpi-label">Visits in the next 7 days</div>
+            <div class="kpi-note">{{ k.upcomingVisits }} upcoming in total</div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a href="{{ path('message_index') }}" class="panel kpi">
+            <div class="kpi-icon amber"><i class="fas fa-envelope"></i></div>
+            <div class="kpi-value">{{ k.messagesThisMonth }}</div>
+            <div class="kpi-label">Messages this month</div>
+            <div class="kpi-note">{{ t.messages }} received overall</div>
+        </a>
+    </div>
+    <div class="col-6 col-lg-3">
+        <a href="{{ path('Feedbacks_index') }}" class="panel kpi">
+            <div class="kpi-icon rose"><i class="fas fa-star"></i></div>
+            <div class="kpi-value">{{ t.feedbacks }}</div>
+            <div class="kpi-label">Feedbacks</div>
+            <div class="kpi-note">Patient opinions collected</div>
+        </a>
+    </div>
+</section>
 
-.feature-icon {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0 auto;
-}
+{# ---------- Charts ---------- #}
+<section class="row g-3 mb-4" aria-label="Charts">
+    <div class="col-lg-8">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Activity over time</h2><span class="text-muted small">Last 5 months + next month</span></div>
+            <div class="panel-body"><div class="chart-box"><canvas id="chart-activity" role="img" aria-label="Line chart of visits, messages and feedbacks per month"></canvas></div></div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Visit status</h2></div>
+            <div class="panel-body"><div class="chart-box"><canvas id="chart-status" role="img" aria-label="Doughnut chart of upcoming, completed and unscheduled visits"></canvas></div></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Most common illnesses</h2></div>
+            <div class="panel-body"><div class="chart-box"><canvas id="chart-illness" role="img" aria-label="Doughnut chart of patients by illness"></canvas></div></div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Patients per doctor</h2></div>
+            <div class="panel-body"><div class="chart-box"><canvas id="chart-doctors" role="img" aria-label="Bar chart of patients per doctor"></canvas></div></div>
+        </div>
+    </div>
+</section>
 
+{# ---------- Lists ---------- #}
+<section class="row g-3" aria-label="Upcoming visits and recent messages">
+    <div class="col-lg-7">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Next visits</h2><a href="{{ path('patient_index') }}" class="small fw-semibold">View all</a></div>
+            {% if stats.upcoming|length %}
+                <ul class="mini-list">
+                {% for v in stats.upcoming %}
+                    <li>
+                        <div class="date-chip"><span>{{ v.date|date('M') }}</span><strong>{{ v.date|date('d') }}</strong></div>
+                        <div class="grow">
+                            <div class="name">{{ v.patient.name }}</div>
+                            <div class="sub">{{ v.patient.illness }} · {{ v.patient.assignedDoctor }}</div>
+                        </div>
+                        <span class="tag tag-blue"><i class="far fa-clock"></i>{{ v.date|date('H:i') }}</span>
+                        <a href="{{ path('patient_edit', {'id': v.patient.id}) }}" class="btn btn-ghost btn-icon" title="Edit" aria-label="Edit {{ v.patient.name }}"><i class="fas fa-pen"></i></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty"><div class="icon"><i class="far fa-calendar"></i></div><h3>No upcoming visits</h3><p>Schedule a visit when you add a patient.</p><a href="{{ path('patient_new') }}" class="btn btn-primary"><i class="fas fa-plus"></i>Add patient</a></div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-5">
+        <div class="panel h-100">
+            <div class="panel-head"><h2>Recent messages</h2><a href="{{ path('message_index') }}" class="small fw-semibold">View all</a></div>
+            {% if stats.recentMessages|length %}
+                <ul class="mini-list">
+                {% for m in stats.recentMessages %}
+                    <li>
+                        <div class="avatar">{{ m.name|first|upper }}</div>
+                        <div class="grow">
+                            <div class="name">{{ m.name }}</div>
+                            <div class="sub truncate">{{ m.message }}</div>
+                        </div>
+                        <a href="{{ path('message_show', {'id': m.id}) }}" class="btn btn-ghost btn-icon" title="Open" aria-label="Open message from {{ m.name }}"><i class="fas fa-eye"></i></a>
+                    </li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                <div class="empty"><div class="icon"><i class="fas fa-envelope"></i></div><h3>No messages yet</h3><p>New messages will show up here.</p></div>
+            {% endif %}
+        </div>
+    </div>
+</section>
 
-.btn {
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
+<div id="dash-data" data-charts="{{ stats.charts|json_encode|e('html_attr') }}" hidden></div>
+<script>
+(function () {
+    if (typeof Chart === 'undefined') { return; }
+    var d = JSON.parse(document.getElementById('dash-data').dataset.charts);
+    var C = { teal: '#0f766e', mint: '#14b8a6', blue: '#2563eb', amber: '#d97706', rose: '#e11d48', slate: '#94a3b8', violet: '#7c3aed' };
+    var palette = [C.teal, C.blue, C.amber, C.rose, C.violet, C.slate];
+    var grid = '#e2e8f0', text = '#64748b';
 
-.btn:hover {
-    transform: translateY(-2px);
-}
+    Chart.defaults.font.family = "'Inter', system-ui, sans-serif";
+    Chart.defaults.color = text;
+    Chart.defaults.maintainAspectRatio = false;
+    Chart.defaults.plugins.legend.labels.usePointStyle = true;
+    Chart.defaults.plugins.legend.labels.boxWidth = 8;
 
-@media (max-width: 768px) {
-    .hero-section {
-        text-align: center;
-        padding: 3rem 0;
+    function empty(id) {
+        var box = document.getElementById(id).parentNode;
+        box.innerHTML = '<div class="chart-empty"><i class="fas fa-chart-simple"></i><span>No data yet</span></div>';
+    }
+    function sum(a) { return a.reduce(function (x, y) { return x + y; }, 0); }
+    var ints = { beginAtZero: true, ticks: { precision: 0 }, grid: { color: grid } };
+
+    // Activity (line)
+    new Chart(document.getElementById('chart-activity'), {
+        type: 'line',
+        data: { labels: d.months, datasets: [
+            { label: 'Visits', data: d.visits, borderColor: C.teal, backgroundColor: 'rgba(15,118,110,.12)', fill: true, tension: .35 },
+            { label: 'Messages', data: d.messages, borderColor: C.blue, backgroundColor: C.blue, tension: .35 },
+            { label: 'Feedbacks', data: d.feedbacks, borderColor: C.amber, backgroundColor: C.amber, tension: .35 }
+        ]},
+        options: { interaction: { mode: 'index', intersect: false }, elements: { point: { radius: 3, hoverRadius: 5 }, line: { borderWidth: 2.5 } },
+            scales: { y: ints, x: { grid: { display: false } } }, plugins: { legend: { position: 'bottom' } } }
+    });
+
+    // Visit status (doughnut)
+    if (sum(d.visitStatus.values) === 0) { empty('chart-status'); } else {
+        new Chart(document.getElementById('chart-status'), {
+            type: 'doughnut',
+            data: { labels: d.visitStatus.labels, datasets: [{ data: d.visitStatus.values, backgroundColor: [C.teal, C.slate, C.amber], borderWidth: 0 }] },
+            options: { cutout: '68%', plugins: { legend: { position: 'bottom' } } }
+        });
     }
 
-    .display-4 {
-        font-size: 2.5rem;
+    // Illnesses (doughnut)
+    if (sum(d.illnessValues) === 0) { empty('chart-illness'); } else {
+        new Chart(document.getElementById('chart-illness'), {
+            type: 'doughnut',
+            data: { labels: d.illnessLabels, datasets: [{ data: d.illnessValues, backgroundColor: palette, borderWidth: 0 }] },
+            options: { cutout: '60%', plugins: { legend: { position: 'right' } } }
+        });
     }
 
-    .feature-card {
-        margin-bottom: 2rem;
+    // Doctors (horizontal bar)
+    if (sum(d.doctorValues) === 0) { empty('chart-doctors'); } else {
+        new Chart(document.getElementById('chart-doctors'), {
+            type: 'bar',
+            data: { labels: d.doctorLabels, datasets: [{ label: 'Patients', data: d.doctorValues, backgroundColor: C.teal, borderRadius: 6, maxBarThickness: 26 }] },
+            options: { indexAxis: 'y', scales: { x: ints, y: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+        });
     }
-
-}
-</style>
+})();
+</script>
 {% endblock %}

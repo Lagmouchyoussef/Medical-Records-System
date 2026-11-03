@@ -1,0 +1,10 @@
+{# Labelled form field. Params: field (FormView), placeholder (optional), hint (optional), rows (optional) #}
+{% set attrs = {'class': 'form-control' ~ (field.vars.errors|length ? ' is-invalid' : '')} %}
+{% if placeholder|default(false) %}{% set attrs = attrs|merge({'placeholder': placeholder}) %}{% endif %}
+{% if rows|default(false) %}{% set attrs = attrs|merge({'rows': rows}) %}{% endif %}
+<div class="field {{ field.vars.errors|length ? 'has-error' }}">
+    {{ form_label(field) }}
+    {{ form_widget(field, {'attr': attrs}) }}
+    {% if hint|default(false) %}<div class="hint">{{ hint }}</div>{% endif %}
+    {% if field.vars.errors|length %}<div class="error">{{ form_errors(field) }}</div>{% endif %}
+</div>

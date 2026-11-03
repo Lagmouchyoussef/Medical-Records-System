@@ -8,28 +8,28 @@ use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
 /**
- * Auto-generated Migration: Please modify to your needs!
+ * Initial MediFolio schema: patients, messages and feedbacks.
  */
 final class Version20260108222336 extends AbstractMigration
 {
     public function getDescription(): string
     {
-        return '';
+        return 'Create the patient, message, feedbacks and messenger_messages tables.';
     }
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE feedbacks CHANGE nom name VARCHAR(255) NOT NULL, CHANGE Feedbacks feedback LONGTEXT NOT NULL, CHANGE date_envoi sent_at DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE message CHANGE nom name VARCHAR(255) NOT NULL, CHANGE date_envoi sent_at DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE patient ADD name VARCHAR(255) NOT NULL, ADD illness VARCHAR(255) NOT NULL, ADD assigned_doctor VARCHAR(255) NOT NULL, DROP nom, DROP maladie, DROP medecin_assigne, CHANGE date_visite visit_date DATETIME NOT NULL');
+        $this->addSql('CREATE TABLE feedbacks (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, feedback LONGTEXT NOT NULL, sent_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE message (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, email VARCHAR(255) NOT NULL, message LONGTEXT NOT NULL, sent_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE patient (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, illness VARCHAR(255) NOT NULL, assigned_doctor VARCHAR(255) NOT NULL, visit_date DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', available_at DATETIME NOT NULL COMMENT \'(DC2Type:datetime_immutable)\', delivered_at DATETIME DEFAULT NULL COMMENT \'(DC2Type:datetime_immutable)\', INDEX IDX_75EA56E0FB7336F0E3BD61CE16BA31DBBF396750 (queue_name, available_at, delivered_at, id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
     }
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
-        $this->addSql('ALTER TABLE feedbacks CHANGE name nom VARCHAR(255) NOT NULL, CHANGE feedback Feedbacks LONGTEXT NOT NULL, CHANGE sent_at date_envoi DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE message CHANGE name nom VARCHAR(255) NOT NULL, CHANGE sent_at date_envoi DATETIME NOT NULL');
-        $this->addSql('ALTER TABLE patient ADD nom VARCHAR(255) NOT NULL, ADD maladie VARCHAR(255) NOT NULL, ADD medecin_assigne VARCHAR(255) NOT NULL, DROP name, DROP illness, DROP assigned_doctor, CHANGE visit_date date_visite DATETIME NOT NULL');
+        $this->addSql('DROP TABLE feedbacks');
+        $this->addSql('DROP TABLE message');
+        $this->addSql('DROP TABLE patient');
+        $this->addSql('DROP TABLE messenger_messages');
     }
 }

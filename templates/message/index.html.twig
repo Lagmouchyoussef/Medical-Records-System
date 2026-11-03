@@ -3,134 +3,52 @@
 {% block title %}Messages{% endblock %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="h2 text-info mb-0"><i class="fas fa-envelope me-2"></i>Messages</h1>
-        <a href="{{ path('message_new') }}" class="btn btn-info btn-lg">
-            <i class="fas fa-plus me-2"></i>Create a new message
-        </a>
+<div class="page-head">
+    <div>
+        <h1>Messages</h1>
+        <p>{{ messages|length }} received</p>
     </div>
-
-    <div class="card shadow">
-        <div class="card-body p-0">
-            <div class="table-responsive">
-                <table class="table table-hover mb-0">
-                    <thead class="table-info">
-                        <tr>
-                            <th class="border-0">ID</th>
-                            <th class="border-0">Sender</th>
-                            <th class="border-0">Email</th>
-                            <th class="border-0">Message</th>
-                            <th class="border-0">Sending date</th>
-                            <th class="border-0 text-center">Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    {% for message in messages %}
-                        <tr>
-                            <td class="fw-bold text-info">{{ message.id }}</td>
-                            <td>
-                                <div class="d-flex align-items-center">
-                                    <div class="avatar-circle bg-info text-white me-2">
-                                        {{ message.name|first|upper }}
-                                    </div>
-                                    {{ message.name }}
-                                </div>
-                            </td>
-                            <td>
-                                <a href="mailto:{{ message.email }}" class="text-decoration-none">
-                                    <i class="fas fa-envelope me-1 text-muted"></i>{{ message.email }}
-                                </a>
-                            </td>
-                            <td>
-                                <div class="message-text">
-                                    {{ message.message|length > 50 ? message.message|slice(0, 50) ~ '...' : message.message }}
-                                </div>
-                            </td>
-                            <td>
-                                <span class="badge bg-success">
-                                    <i class="fas fa-calendar me-1"></i>{{ message.sentAt ? message.sentAt|date('d/m/Y H:i') : 'N/A' }}
-                                </span>
-                            </td>
-                            <td class="text-center">
-                                <div class="btn-group" role="group">
-                                    <a href="{{ path('message_edit', {'id': message.id}) }}" class="btn btn-sm btn-outline-warning" title="Edit">
-                                        <i class="fas fa-edit"></i>
-                                    </a>
-                                    {{ include('message/_delete_form.html.twig', {'message': message}) }}
-                                </div>
-                            </td>
-                        </tr>
-                    {% else %}
-                        <tr>
-                            <td colspan="6" class="text-center py-5">
-                                <div class="empty-state">
-                                    <i class="fas fa-envelope fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">No message received</h5>
-                                    <p class="text-muted">Messages will appear here once received.</p>
-                                </div>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <a href="{{ path('message_new') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>New message</a>
 </div>
-{% endblock %}
 
-{% block stylesheets %}
-{{ parent() }}
-<style>
-.card {
-    border: none;
-    border-radius: 15px;
-    overflow: hidden;
-}
-.table th {
-    font-weight: 600;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 0.5px;
-}
-.avatar-circle {
-    width: 35px;
-    height: 35px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: bold;
-    font-size: 0.9rem;
-}
-.message-text {
-    max-width: 300px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-.btn-outline-warning:hover {
-    background-color: #ffc107;
-    border-color: #ffc107;
-}
-.btn-danger {
-    border-radius: 6px;
-}
-.empty-state {
-    padding: 2rem 0;
-}
-.btn-info {
-    background: linear-gradient(135deg, #17a2b8 0%, #20c997 100%);
-    border: none;
-    border-radius: 8px;
-    padding: 0.75rem 1.5rem;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-.btn-info:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
-}
-</style>
+<div class="panel">
+    {% if messages|length %}
+    <div class="table-responsive">
+        <table class="data-table">
+            <thead>
+                <tr><th>From</th><th>Message</th><th>Date</th><th class="actions"><span class="visually-hidden">Actions</span></th></tr>
+            </thead>
+            <tbody>
+            {% for message in messages %}
+                <tr>
+                    <td>
+                        <div class="person">
+                            <div class="avatar">{{ message.name|first|upper }}</div>
+                            <div>
+                                <div class="name">{{ message.name }}</div>
+                                <a class="sub" href="mailto:{{ message.email }}">{{ message.email }}</a>
+                            </div>
+                        </div>
+                    </td>
+                    <td><div class="truncate" title="{{ message.message }}">{{ message.message }}</div></td>
+                    <td><span class="tag">{{ message.sentAt ? message.sentAt|date('d M Y, H:i') : 'N/A' }}</span></td>
+                    <td class="actions">
+                        <a href="{{ path('message_show', {'id': message.id}) }}" class="btn btn-ghost btn-icon" title="View" aria-label="View message from {{ message.name }}"><i class="fas fa-eye"></i></a>
+                        <a href="{{ path('message_edit', {'id': message.id}) }}" class="btn btn-ghost btn-icon" title="Edit" aria-label="Edit message from {{ message.name }}"><i class="fas fa-pen"></i></a>
+                        {{ include('message/_delete_form.html.twig', {'message': message}) }}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="empty">
+        <div class="icon"><i class="fas fa-envelope"></i></div>
+        <h3>No messages yet</h3>
+        <p>Messages sent from the contact page will appear here.</p>
+        <a href="{{ path('message_new') }}" class="btn btn-primary"><i class="fas fa-plus me-2"></i>New message</a>
+    </div>
+    {% endif %}
+</div>
 {% endblock %}

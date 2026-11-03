@@ -1,0 +1,29 @@
+{# Generic delete button + confirmation modal.
+   Params: id (unique), action (url), token (csrf), what (e.g. "patient"), label (optional: text button) #}
+{% if label|default(false) %}
+    <button type="button" class="btn btn-danger-soft" data-bs-toggle="modal" data-bs-target="#del-{{ id }}">
+        <i class="fas fa-trash me-2"></i>{{ label }}
+    </button>
+{% else %}
+    <button type="button" class="btn btn-danger-soft btn-icon" data-bs-toggle="modal" data-bs-target="#del-{{ id }}" title="Delete" aria-label="Delete {{ what }}">
+        <i class="fas fa-trash"></i>
+    </button>
+{% endif %}
+<div class="modal fade" id="del-{{ id }}" tabindex="-1" aria-labelledby="del-title-{{ id }}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-body p-4 text-start">
+                <div class="modal-icon"><i class="fas fa-triangle-exclamation"></i></div>
+                <h2 class="h5" id="del-title-{{ id }}">Delete this {{ what }}?</h2>
+                <p class="text-muted mb-4">This action cannot be undone.</p>
+                <div class="d-flex justify-content-end gap-2">
+                    <button type="button" class="btn btn-ghost" data-bs-dismiss="modal">Cancel</button>
+                    <form method="post" action="{{ action }}" class="m-0">
+                        <input type="hidden" name="_token" value="{{ token }}">
+                        <button class="btn btn-danger">Delete</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

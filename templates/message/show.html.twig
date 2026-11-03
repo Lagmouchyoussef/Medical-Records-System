@@ -1,38 +1,26 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Message{% endblock %}
+{% block title %}Message from {{ message.name }}{% endblock %}
 
 {% block body %}
-    <h1>Message</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ message.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ message.name }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ message.email }}</td>
-            </tr>
-            <tr>
-                <th>Message</th>
-                <td>{{ message.message }}</td>
-            </tr>
-            <tr>
-                <th>Sending Date</th>
-                <td>{{ message.sentAt ? message.sentAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('message_index') }}">Back to list</a>
-
-    <a href="{{ path('message_edit', {'id': message.id}) }}">Edit</a>
-
-    {{ include('message/_delete_form.html.twig', {'message': message}) }}
+<div class="row justify-content-center">
+    <div class="col-lg-8 col-xl-7">
+        <a href="{{ path('message_index') }}" class="breadcrumb-link"><i class="fas fa-arrow-left"></i>Messages</a>
+        <div class="page-head">
+            <div><h1>Message from {{ message.name }}</h1><p>#{{ message.id }}</p></div>
+            <div class="d-flex gap-2">
+                <a href="{{ path('message_edit', {'id': message.id}) }}" class="btn btn-ghost"><i class="fas fa-pen me-2"></i>Edit</a>
+                {{ include('message/_delete_form.html.twig', {'message': message, 'label': 'Delete'}) }}
+            </div>
+        </div>
+        <div class="panel"><div class="panel-body">
+            <dl class="detail">
+                <dt>Name</dt><dd>{{ message.name }}</dd>
+                <dt>Email</dt><dd><a href="mailto:{{ message.email }}">{{ message.email }}</a></dd>
+                <dt>Sent</dt><dd>{{ message.sentAt ? message.sentAt|date('d M Y, H:i') : '—' }}</dd>
+                <dt>Message</dt><dd style="white-space: pre-line">{{ message.message }}</dd>
+            </dl>
+        </div></div>
+    </div>
+</div>
 {% endblock %}

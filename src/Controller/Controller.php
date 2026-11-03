@@ -8,6 +8,7 @@ use App\Form\MessageType;
 use App\Form\PatientType;
 use App\Repository\MessageRepository;
 use App\Repository\PatientRepository;
+use App\Service\DashboardStats;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,9 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends AbstractController
 {
-    public function index()
+    public function index(DashboardStats $stats)
     {
-        return $this->render("home.html.twig");
+        return $this->render("home.html.twig", ['stats' => $stats->build()]);
     }
 
     public function contact(Request $request, EntityManagerInterface $entityManager, MessageRepository $messageRepository)
@@ -44,10 +45,21 @@ class Controller extends AbstractController
 
     // Patient CRUD methods
 
-    public function patientsIndex(PatientRepository $patientRepository): Response
+    public function patientsIndex(Request $request, PatientRepository $patientRepository): Response
     {
+        $query = trim((string) $request->query->get('q', ''));
+        $patients = $patientRepository->findAll();
+
+        if ('' !== $query) {
+            $patients = array_values(array_filter($patients, static fn (Patient $p) => false !== stripos(
+                $p->getName().' '.$p->getIllness().' '.$p->getAssignedDoctor(),
+                $query
+            )));
+        }
+
         return $this->render('patient/index.html.twig', [
-            'patients' => $patientRepository->findAll(),
+            'patients' => $patients,
+            'query' => $query,
         ]);
     }
 

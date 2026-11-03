@@ -1,0 +1,101 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 320" width="1200" height="320" role="img" aria-labelledby="t d">
+  <title id="t">MediFolio — Medical records, kept simple</title>
+  <desc id="d">Animated banner: the MediFolio logo pulses while a heartbeat line travels across a deep teal background.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#022c2a"/>
+      <stop offset=".55" stop-color="#0b5f59"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2dd4bf"/>
+      <stop offset="1" stop-color="#0f766e"/>
+    </linearGradient>
+    <linearGradient id="ecg" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#5eead4" stop-opacity="0"/>
+      <stop offset=".5" stop-color="#99f6e4"/>
+      <stop offset="1" stop-color="#5eead4" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="glow" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#5eead4" stop-opacity=".35"/>
+      <stop offset="1" stop-color="#5eead4" stop-opacity="0"/>
+    </radialGradient>
+    <pattern id="dots" width="28" height="28" patternUnits="userSpaceOnUse">
+      <circle cx="2" cy="2" r="1.2" fill="#ffffff" fill-opacity=".07"/>
+    </pattern>
+    <clipPath id="round"><rect width="1200" height="320" rx="20"/></clipPath>
+  </defs>
+
+  <style>
+    .t   { font-family: 'Segoe UI', 'Inter', Helvetica, Arial, sans-serif; }
+    .name{ font-size: 76px; font-weight: 800; letter-spacing: -2px; fill: #fff; }
+    .name tspan { fill: #5eead4; }
+    .tag { font-size: 24px; font-weight: 500; fill: #ccfbf1; opacity: .92; }
+    .chip{ font-size: 13px; font-weight: 700; letter-spacing: 2.4px; fill: #99f6e4; }
+
+    .ring  { transform-box: fill-box; transform-origin: center; animation: ring 2.8s ease-out infinite; }
+    .ring.r2 { animation-delay: 1.4s; }
+    .mark  { transform-box: fill-box; transform-origin: center; animation: beat 2.8s ease-in-out infinite; }
+    .cross { transform-box: fill-box; transform-origin: center; animation: crossbeat 2.8s ease-in-out infinite; }
+    .line  { stroke-dasharray: 26 74; animation: run 3.2s linear infinite; }
+    .in1   { animation: rise .9s .15s both cubic-bezier(.2,.8,.2,1); }
+    .in2   { animation: rise .9s .35s both cubic-bezier(.2,.8,.2,1); }
+    .in3   { animation: rise .9s .55s both cubic-bezier(.2,.8,.2,1); }
+    .float { animation: float 7s ease-in-out infinite; }
+    .float.f2 { animation-duration: 9s; animation-delay: -3s; }
+    .float.f3 { animation-duration: 11s; animation-delay: -6s; }
+
+    @keyframes ring  { 0% { transform: scale(.9); opacity: .55 } 100% { transform: scale(2.1); opacity: 0 } }
+    @keyframes beat  { 0%,100% { transform: scale(1) } 12% { transform: scale(1.07) } 24% { transform: scale(1) } 36% { transform: scale(1.05) } 48% { transform: scale(1) } }
+    @keyframes crossbeat { 0%,100% { transform: scale(1) } 12% { transform: scale(1.12) } 24% { transform: scale(1) } }
+    @keyframes run   { from { stroke-dashoffset: 100 } to { stroke-dashoffset: 0 } }
+    @keyframes rise  { from { opacity: 0; transform: translateY(14px) } to { opacity: 1; transform: none } }
+    @keyframes float { 0%,100% { transform: translateY(0) } 50% { transform: translateY(-14px) } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ring,.mark,.cross,.line,.in1,.in2,.in3,.float { animation: none !important; }
+      .in1,.in2,.in3 { opacity: 1; }
+    }
+  </style>
+
+  <g clip-path="url(#round)">
+    <rect width="1200" height="320" fill="url(#bg)"/>
+    <rect width="1200" height="320" fill="url(#dots)"/>
+    <circle cx="250" cy="150" r="230" fill="url(#glow)"/>
+
+    <!-- floating medical crosses -->
+    <g fill="#ffffff" fill-opacity=".10">
+      <g class="float" transform="translate(980 46)"><rect x="-6" y="-18" width="12" height="36" rx="3"/><rect x="-18" y="-6" width="36" height="12" rx="3"/></g>
+      <g class="float f2" transform="translate(1110 120) scale(.7)"><rect x="-6" y="-18" width="12" height="36" rx="3"/><rect x="-18" y="-6" width="36" height="12" rx="3"/></g>
+      <g class="float f3" transform="translate(880 255) scale(.55)"><rect x="-6" y="-18" width="12" height="36" rx="3"/><rect x="-18" y="-6" width="36" height="12" rx="3"/></g>
+    </g>
+
+    <!-- heartbeat line -->
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M0 262 H300 L330 262 L352 226 L376 292 L408 188 L440 316 L462 246 L484 262 H1200" stroke="#ffffff" stroke-opacity=".10" stroke-width="3"/>
+      <path class="line" pathLength="100" d="M0 262 H300 L330 262 L352 226 L376 292 L408 188 L440 316 L462 246 L484 262 H1200" stroke="url(#ecg)" stroke-width="4"/>
+    </g>
+
+    <!-- logo mark -->
+    <g transform="translate(96 78)">
+      <rect class="ring" x="0" y="0" width="132" height="132" rx="34" fill="none" stroke="#5eead4" stroke-width="3"/>
+      <rect class="ring r2" x="0" y="0" width="132" height="132" rx="34" fill="none" stroke="#5eead4" stroke-width="3"/>
+      <g class="mark">
+        <rect width="132" height="132" rx="34" fill="url(#mark)"/>
+        <rect width="132" height="132" rx="34" fill="none" stroke="#ffffff" stroke-opacity=".25" stroke-width="2"/>
+        <path d="M27.5 46.8a8.3 8.3 0 0 1 8.3-8.3h20.6l8.3 9.6h31.5a8.3 8.3 0 0 1 8.3 8.3V90.8a8.3 8.3 0 0 1-8.3 8.3H35.8a8.3 8.3 0 0 1-8.3-8.3z" fill="#fff"/>
+        <g class="cross" fill="#0f766e">
+          <rect x="60.5" y="59.1" width="11" height="30.3" rx="2.8"/>
+          <rect x="50.9" y="68.8" width="30.3" height="11" rx="2.8"/>
+        </g>
+      </g>
+    </g>
+
+    <!-- text -->
+    <g class="t">
+      <text class="chip in1" x="268" y="104">MEDICAL RECORDS MANAGEMENT</text>
+      <text class="name in2" x="264" y="178">Medi<tspan>Folio</tspan></text>
+      <text class="tag in3" x="268" y="222">Patient records, kept simple.</text>
+    </g>
+  </g>
+</svg>

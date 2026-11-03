@@ -1,49 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text><text y=%221.3em%22 x=%220.2em%22 font-size=%2276%22 fill=%22%23fff%22>sf</text></svg>">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="turbo-visit-control" content="reload">
+        <title>{% block title %}Medical Records System{% endblock %} · MediFolio</title>
+        <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Crect width='48' height='48' rx='12' fill='%230f766e'/%3E%3Cpath d='M10 17a3 3 0 0 1 3-3h7.5l3 3.5H35a3 3 0 0 1 3 3V33a3 3 0 0 1-3 3H13a3 3 0 0 1-3-3z' fill='%23fff'/%3E%3Cpath d='M22 21.5h4v11h-4zM18.5 25h11v4h-11z' fill='%230f766e'/%3E%3C/svg%3E">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-        {% block stylesheets %}
-        {% endblock %}
+        <link rel="stylesheet" href="{{ asset('styles/app.css') }}">
+        {% block stylesheets %}{% endblock %}
 
         {% block javascripts %}
             {% block importmap %}{{ importmap('app') }}{% endblock %}
             <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
         {% endblock %}
     </head>
-    <body>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="background-color: black !important;">
-            <div class="container-fluid">
-                <a class="navbar-brand d-flex align-items-center" href="{{ path('index') }}">
-                    <img src="/images/logo.png" alt="Medical Records System Logo" height="40" class="me-2">
-                    <span>Medical Records System</span>
+    <body data-turbo="false">
+        {% set route = app.request.attributes.get('_route') %}
+        <header class="site-header">
+            <div class="container inner">
+                <a class="brand" href="{{ path('index') }}">
+                    {{ include('_ui/_logo.html.twig') }}
+                    <span class="brand-text"><span class="brand-name">Medi<span>Folio</span></span><span class="brand-tag">Medical records</span></span>
                 </a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
+                <button class="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="main-nav" aria-expanded="false"
+                        onclick="var n=document.getElementById('main-nav');var o=n.classList.toggle('open');this.setAttribute('aria-expanded',o)">
+                    <i class="fas fa-bars"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('index') }}">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('patient_index') }}">Patients</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('Feedbacks_index') }}">Feedbacks</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ path('contact') }}">Contact Us</a>
-                        </li>
-                    </ul>
-                </div>
+                <nav class="main-nav" id="main-nav" aria-label="Main">
+                    <a href="{{ path('index') }}" class="{{ route == 'index' ? 'active' }}">Home</a>
+                    <a href="{{ path('patient_index') }}" class="{{ route starts with 'patient' ? 'active' }}">Patients</a>
+                    <a href="{{ path('message_index') }}" class="{{ route starts with 'message' ? 'active' }}">Messages</a>
+                    <a href="{{ path('Feedbacks_index') }}" class="{{ route starts with 'Feedbacks' ? 'active' }}">Feedbacks</a>
+                    <a href="{{ path('contact') }}" class="{{ route == 'contact' ? 'active' }}">Contact</a>
+                </nav>
             </div>
-        </nav>
-        <div class="container mt-4">
-            {% block body %}{% endblock %}
-        </div>
+        </header>
+
+        <main>
+            <div class="container">
+                {% for type, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="flash flash-{{ type }}" role="status">
+                            <i class="fas {{ type == 'success' ? 'fa-circle-check' : 'fa-circle-exclamation' }}"></i>{{ message }}
+                        </div>
+                    {% endfor %}
+                {% endfor %}
+
+                {% block body %}{% endblock %}
+            </div>
+        </main>
+
+        <footer class="site-footer">
+            <div class="container d-flex justify-content-between flex-wrap gap-2">
+                <span>© 2025 MediFolio · Medical records management</span>
+                <span>Patient data is confidential.</span>
+            </div>
+        </footer>
     </body>
 </html>
